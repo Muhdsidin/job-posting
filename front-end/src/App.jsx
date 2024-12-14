@@ -10,6 +10,7 @@ import { Protectbasic } from "./ProtectRoutes/Protectbasic";
 import AddJobs from "./pages/AddJobs";
 import UploadPost from "./pages/UploadPost";
 import ViewProfile from "./pages/ViewProfile";
+import Profiles from "./pages/Profiles";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/add-jobs" element={<AddJobs />} />
           <Route path="/add-post" element={<UploadPost />} />
           <Route path="/:user/profile" element={<ViewProfile />} />
+          <Route path="/profiles" element={<Profiles />} />
         </Route>
       </Routes>
     </>

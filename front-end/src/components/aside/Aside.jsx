@@ -31,7 +31,7 @@ function Aside() {
   return (
     <aside className="bg-slate-200 border-spacing-10" style={{ display: "flex", flexDirection: "column" , alignItems:"center", width: "300px", height: "500px", marginTop: "100px"  , marginLeft:"30px" , borderRadius:"10px" }}>
         <div className=" mt-10"> 
-          <img src="https://www.judithmallard.com/wp-content/uploads/2018/05/TESTIMONIALS-267x300.jpg" alt="" className="rounded-full w-36 h-36"  />
+          <img src={user.profile} alt="" className="rounded-full w-36 h-36"  />
         
         </div>
 

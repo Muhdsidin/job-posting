@@ -8,71 +8,14 @@ const bcrypt = require("bcrypt");
 const { UserAuth } = require("../auth/User");
 const MediaModel = require("../models/Media-model");
 const JobModel = require("../models/Job-model");
+const { CreateProfile, UserLogin, getAllUserProfile, GetAllUploadedPost, getAUserProfile } = require("../controllers/User-Controller");
 
-router.post("/create-profile", imageUpload, async (req, res) => {
-  try {
-    const { email, password, about, role , skills } = req.body;
-    console.log(skills)
-    const skillsFromFClient = skills.split(",")
-    
-    const image = req.body.image;
-    const hashPassword = await bcrypt.hash(password, 10);
+router.post("/create-profile", imageUpload, CreateProfile);
+router.post("/login-account" , UserLogin)
+router.get("/get-all-profile", getAllUserProfile)
+router.get("/get-post", GetAllUploadedPost)
 
-    const user = await UserModel.create({
-      // userName : name,
-      email: email,
-      password: hashPassword,
-      profile: image,
-      about,
-      role,
-    });
-    user.skills = skillsFromFClient
-
-    await user.save();
-    console.log(user)
-
-    const token = signToken(user._id, "HELLO");
-
-    res.status(200).json(token);
-  } catch (error) {
-    console.log(error.message);
-  }
-});
-
-router.post("/login-account" , async (req ,res )=>{
-   try {
-      const {email , password } = req.body
-
-      const user = await UserModel.findOne({email})
-      if(!user){
-         return res.status(400).json({message:"User not found"})
-      }
-
-      const checkPassword = await bcrypt.compare(password , user.password)
-      if(!checkPassword){
-         return res.status(400).json({message:"Wrong password"})
-      }
-      const token = signToken(user._id, "HELLO");
-
-      res.status(200).json(token  )
-
-   } catch (error) {
-      console.log(error.message)
-   }
-})
-
-router.get("/user-profile",UserAuth, async (req, res) => {
-   try {
-      const userId = req.userId
-      console.log(userId)
-      const user = await UserModel.findById(userId)
-console.log(user)
-      res.status(200).json(user)
-   } catch (error) {
-      console.log(error.message)
-   }
-}
-)
+router.get("/user-profile",UserAuth, getAUserProfile)
 
 router.post("/create-post", UserAuth, imageUpload, async (req, res) => {
    try {
@@ -102,14 +45,22 @@ router.post("/create-post", UserAuth, imageUpload, async (req, res) => {
 
 })
 
-router.get("/get-post", async (req,res)=>{
-   try {
-      const post = await MediaModel.find().populate("user").select("-password")
-      console.log(post)
-      res.status(200).json(post )
 
+
+router.post("/delete-profile",UserAuth ,  async (req, res) => {
+   try {
+      const userId = req.userId
+      const deletedUser = await UserModel.findByIdAndDelete(userId)
+      console.log(deletedUser,  " ================")
+      if(deletedUser.role === "SEEKER"){
+         await MediaModel.deleteMany({user : userId})
+      }else{
+         await JobModel.deleteMany({user : userId})
+      }
+      res.status(200).json({
+         message : "Successfully Deleted Profile "})
    } catch (error) {
-      console.log(error.message )
+      console.log(error.message)
    }
 })
 
@@ -162,4 +113,8 @@ router.get("/get-job", async (req,res)=>{
       console.log(error.message)
    }
 })
+
+
+
+
 module.exports = router;

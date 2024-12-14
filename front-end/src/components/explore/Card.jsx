@@ -3,14 +3,31 @@ import { BaseAxios } from '../../utils/Axios';
 
 function Card() {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // For storing filtered results
+  const [searchQuery, setSearchQuery] = useState(''); // For storing search input
 
+  // Function to fetch data
   const getDetailedData = async () => {
     try {
       const response = await BaseAxios.get("/user/get-post");
-      setData(response.data); // Assume response.data is the array of posts
+      setData(response.data); // Save full data
+      setFilteredData(response.data); // Initialize filtered data
       console.log(response.data);
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  // Search filter
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setFilteredData(data); // If search query is empty, reset to full data
+    } else {
+      const filtered = data.filter(post =>
+        post.title.toLowerCase().includes(query.toLowerCase()) // Filter by title
+      );
+      setFilteredData(filtered);
     }
   };
 
@@ -20,13 +37,27 @@ function Card() {
 
   return (
     <div className="bg-gray-100 flex flex-col items-center justify-center mt-16">
-      {data.map((post) => (
+      {/* Search Bar */}
+      <div className="w-full max-w-md mb-4">
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Posts */}
+      {filteredData.map((post) => (
         <div key={post._id} className="bg-white p-8 rounded-lg shadow-md max-w-md mt-10">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <img src={post.user.profile} alt="User Avatar" className="w-8 h-8 rounded-full" />
               <div>
-                <a href={`/${post.user.email}/profile`} className="text-gray-800 font-semibold">{post.user.email}</a>
+                <a href={`/${post.user.email}/profile`} className="text-gray-800 font-semibold">
+                  {post.user.email}
+                </a>
                 <p className="text-gray-500 text-sm">Posted 2 hours ago</p>
               </div>
             </div>
@@ -61,13 +92,11 @@ function Card() {
                 <span>42 Likes</span>
               </button>
             </div>
-            
           </div>
-          
+
           <hr className="mt-2 mb-2" />
           <p className="text-gray-800 font-semibold">Comments</p>
           <hr className="mt-2 mb-2" />
-          
         </div>
       ))}
     </div>

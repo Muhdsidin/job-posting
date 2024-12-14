@@ -36,7 +36,7 @@ function Signup() {
       setPassword("");
       setEmail("");
       setFile(null);
-      localStorage.setItem("token", response.data.token);
+      navigate('/login')
     } catch (error) {
       console.log(error);
       // Handle form submission logic here
