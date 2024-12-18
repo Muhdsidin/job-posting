@@ -36,7 +36,10 @@ function Aside() {
         </div>
 
         <div>
-        <h4 className="text-xl font-bold mt-2">{user.email}</h4>
+            <a href="/profile">
+            <h4 className="text-xl font-bold mt-2">{user.email}</h4>
+            </a>
+       
         </div>
       </aside>
   )
