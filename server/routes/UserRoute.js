@@ -114,6 +114,23 @@ router.get("/get-job", async (req,res)=>{
    }
 })
 
+router.post("/add-to-fav-job",UserAuth,  async (req, res) => {
+   try {
+      const userId = req.userId
+      const {jobId} = req.body
+
+      const user = await UserModel.findById(userId)
+      user.favJob.push(jobId)
+      await user.save()
+
+      res.status(200).json({
+         message : " Successfully added to favourite "
+      })
+   } catch (error) {
+      console.log(error.message)
+   }
+})
+
 
 
 

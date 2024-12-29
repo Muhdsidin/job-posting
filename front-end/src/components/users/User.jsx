@@ -84,7 +84,7 @@ function User() {
             <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                 <img class="w-10 h-10 rounded-full" src={value.profile} alt="Jese image"/>
                 <div class="ps-3">
-                    <div class="text-base font-semibold">Neil Sims</div>
+                    
                     <div class="font-normal text-gray-500">{value.email}</div>
                 </div>  
             </th>
@@ -96,9 +96,7 @@ function User() {
                     <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
                 </div>
             </td>
-            <td class="px-6 py-4">
-                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
-            </td>
+           
         </tr>
         </a>
         ))}

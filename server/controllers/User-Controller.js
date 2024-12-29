@@ -16,7 +16,7 @@ const MediaModel = require("../models/Media-model");
 
 const CreateProfile = async (req , res )=>{
     try {
-        const { email, password, about, role , skills } = req.body;
+        const { email, password, about, role , skills , name  } = req.body;
         console.log(skills)
         const skillsFromFClient = skills.split(",")
         
@@ -30,6 +30,7 @@ const CreateProfile = async (req , res )=>{
           profile: image,
           about,
           role,
+          name
         });
         user.skills = skillsFromFClient
     

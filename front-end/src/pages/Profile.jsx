@@ -61,7 +61,7 @@ const DeleteProfile = async ()=>{
            className="w-32 h-32 rounded-full object-cover border-4 border-blue-600"
          />
          <div>
-           <h1 className="text-4xl font-semibold">John Doe</h1>
+           <h1 className="text-4xl font-semibold">{user.name}</h1>
            <p className="text-blue-300">{user.email}r</p>
          </div>
        </div>

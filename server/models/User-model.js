@@ -2,10 +2,10 @@ const mongoose = require("mongoose"); // must be installed in project
 const { type } = require("os");
 
 const UserSchema= new mongoose.Schema({
-//  userName : {
-//     type : String,
-//     required : true
-//  },
+ name : {
+    type : String,
+    required : true
+ },
  email : {
     type : String,
     required : true
@@ -34,6 +34,10 @@ const UserSchema= new mongoose.Schema({
  media : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "Medias"
+ }],
+ cart : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Jobs"
  }]
  
 });

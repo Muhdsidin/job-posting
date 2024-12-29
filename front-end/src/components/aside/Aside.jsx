@@ -6,8 +6,10 @@ function Aside() {
   // const user = useContext(UserContext)
   // console.log(user)
   const [user , setUser] = useState({})
+  const [loading , setLoading] = useState(false)
   const  getUserName  = async ()=>{
       try {
+        setLoading(true)
           const token = localStorage.getItem("token")
           console.log(token)
           const response = await BaseAxios("/user/user-profile",{
@@ -19,6 +21,7 @@ function Aside() {
           })
           console.log(response.data)
           setUser(response.data)
+          setLoading(false)
       } catch (error) {
           console.log(error)
       }

@@ -10,6 +10,7 @@ function Signup() {
   const [file, setFile] = useState(null);
   const [skills , setSkills] = useState([])
   const [add , setAdd]  = useState("")
+  const [name , setName ] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -21,6 +22,7 @@ function Signup() {
     formData.append("role", role);
     formData.append("file", file);
     formData.append("skills" , skills)
+    formData.append("name" , name)
 
     try {
       const response = await BaseAxios("/user/create-profile", {
@@ -36,6 +38,7 @@ function Signup() {
       setPassword("");
       setEmail("");
       setFile(null);
+      setName("")
       navigate('/login')
     } catch (error) {
       console.log(error);
@@ -65,6 +68,25 @@ function Signup() {
             required
           />
         </div>
+
+    {/* user name imput iunder this  */}
+    <div className="mb-5">
+          <label htmlFor="email" className="block mb-2 text-sm font-medium">
+           UserName 
+          </label>
+          <input
+            type="text"
+            id="email"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Your Usernmae "
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        {/* user name ended  */}
+
+
         <div className="mb-5">
           <label
             htmlFor="password"
@@ -100,7 +122,10 @@ function Signup() {
         </div>n
 
         <div className="mb-5">
-          <label htmlFor="email" className="block mb-2 text-sm font-medium">
+
+          { role === 'HIRING_MANAGER' ? " ":
+          <>
+            <label htmlFor="email" className="block mb-2 text-sm font-medium">
             Add Skills
           </label>
           <input
@@ -114,6 +139,8 @@ function Signup() {
           />
 
           <button onClick={handleSkills} className=" btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 ">Add Skills</button>
+          </> } 
+        
         </div>
 
         <div className="grid md:grid-cols-2 md:gap-6">
