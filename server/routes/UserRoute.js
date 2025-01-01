@@ -67,11 +67,12 @@ router.post("/delete-profile",UserAuth ,  async (req, res) => {
 router.get("/:email/user-profile",async (req,res)=>{
    try {
     const email = req.params.email
-    console.log(email)
+   //  console.log(email)
       
 
-      const findUser = await UserModel.findOne({email:email})
-      console.log(findUser , "=========")
+      const findUser = await UserModel.findOne({email:email}).populate("media").populate("media")
+      console.log(findUser , "============== user medias ")
+      // console.log(findUser , "=========")
       res.status(200).json(findUser)
    } catch (error) {
       console.log(error.message)
